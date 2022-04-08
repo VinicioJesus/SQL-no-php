@@ -1,4 +1,9 @@
 <?php 
+    // Esta variavel foi criada para diferenciar no action do formulario
+    // qual ação deveria ser levada para a router (innserir ou editar)
+    // Nas condições abaixo, mudando o action dessa variavel para a açãode editar
+    $form = (string) "router.php?component=contatos&action=inserir";
+
     //Valida se a utilização de variaveis de sessão está 
     //ativa no servidor
     if(session_status())
@@ -14,6 +19,11 @@
             $celular = $_SESSION['dadosContato']['celular'];
             $email = $_SESSION['dadosContato']['email'];
             $obs = $_SESSION['dadosContato']['obs'];
+            //Mudamos a ação do form para editar o registro no click do botão salvar
+            $form = "router.php?component=contatos&action=editar&id=".$id;
+
+            //Destruimos a variavel de sessão para evitar que o formulario
+            unset($_SESSION['dadosContato']);
         }
     }
 ?>
@@ -28,33 +38,28 @@
         <meta charset="UTF-8">
         <title> Cadastro </title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
-
-
     </head>
-    <body> 
-              
+    <body>               
         <div id="cadastro"> 
             <div id="cadastroTitulo"> 
-                <h1> Cadastro de Contatos </h1>
-                
+                <h1> Cadastro de Contatos </h1>                
             </div>
             <div id="cadastroInformacoes">
-                <form  action="router.php?component=contatos&action=inserir" name="frmCadastro" method="post" >
+                <form  action="<?= $form  ?>" name="frmCadastro" method="post" >
                     <div class="campos">
                         <div class="cadastroInformacoesPessoais">
                             <label> Nome: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input type="text" name="txtNome" value="" placeholder="Digite seu Nome" maxlength="100">
+                            <input type="text" name="txtNome" value="<?= !empty($nome) ? $nome : null?>" placeholder="Digite seu Nome" maxlength="100">
                         </div>
-                    </div>
-                                     
+                    </div>                                     
                     <div class="campos">
                         <div class="cadastroInformacoesPessoais">
                             <label> Telefone: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input type="tel" name="txtTelefone" value="">
+                            <input type="tel" name="txtTelefone" value="<?= !empty($telefone) ? $telefone : null?>" placeholder="Digite seu telefone" maxlength="100">
                         </div>
                     </div>
                     <div class="campos">
@@ -62,17 +67,16 @@
                             <label> Celular: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input type="tel" name="txtCelular" value="">
+                            <input type="tel" name="txtCelular" value="<?= !empty($celular) ?  $celular : null?>" placeholder="Digite seu telefone" maxlength="100">
                         </div>
-                    </div>
-                   
+                    </div>                   
                     
                     <div class="campos">
                         <div class="cadastroInformacoesPessoais">
                             <label> Email: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input type="email" name="txtEmail" value="">
+                            <input type="email" name="txtEmail" value="<?= !empty($email) ?  $email : null?>" placeholder="Digite seu telefone" maxlength="100">
                         </div>
                     </div>
                     <div class="campos">

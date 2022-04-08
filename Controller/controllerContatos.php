@@ -53,9 +53,56 @@
     }
 
     //função para receber dados da View e encaminhar para a model (atualizar)
-    function atualizarContato()
+    function atualizarContato($dadosContato,$id)
     {
-
+        //Validação para verificar se o objeto está vazio
+        if(!empty($dadosContato))
+        {
+            //Validação de caixa vazia dos elementos nome, celular e email, pois são campos de preenchimento 
+            //Obrigatórios no Banco de Dados 
+            //Se o nome não estiver vazio
+            if(!empty($dadosContato['txtNome']) && !empty($dadosContato['txtCelular']) && !empty($dadosContato['txtEmail']))
+            {   //validação para verificar que o id seja valido
+                if (!empty($id) && $id != 0 && is_numeric($id)) 
+                {               
+                
+                    //Criação de um array de dados que será encaminhado a model
+                        // para inserir no BD, é importante criar este array conforme
+                        // as necessidades de manipulação do BD.
+                    // OBS: criar as chaves do aray conforme os nomes dos atributos
+                    // do BD
+                    $arrayDados = array (
+                        "id"        => $id,
+                        "nome"      => $dadosContato['txtNome'],
+                        "telefone"  => $dadosContato['txtTelefone'],
+                        "celular"   => $dadosContato['txtCelular'],
+                        "email"     => $dadosContato['txtEmail'],
+                        "obs"       => $dadosContato['txtObs']
+                    );
+                    
+                    //import do arquivo de modelagem para manipular o BD
+                    require_once('model/bd/contato.php');
+                    //Chama a função que fara o insert no BD 
+                    if(updateContato($arrayDados)){
+                        return true;
+                    
+                    }else{
+                        return array('idErro' => 1,
+                                    'message' => 'não foi possivel atualizar os dados no Banco de Dados' );
+                    }
+                }else{
+                        return array('idErro'   => 4,
+                                     'message'   => 'não é possivel editar um registro sem informar um id valido' );
+                }
+                     
+            }else 
+            {
+                    echo('Dados incompletos');
+                    return array('idErro'   => 2,
+                                 'message' => 'Existem campos obrigatórios que não foram preenchidos'  );
+            }
+               
+        }                  
     }
 
     //função para realizar a exclusão de um contato
@@ -118,10 +165,12 @@
 
         
 
-        if (!empty($dados)) {
+        if (!empty($dados)) 
+        {
             return $dados;
             
-        }else{
+        }else
+        {
             return false;
         }
     }
