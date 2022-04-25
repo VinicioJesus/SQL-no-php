@@ -45,7 +45,8 @@
                 <h1> Cadastro de Contatos </h1>                
             </div>
             <div id="cadastroInformacoes">
-                <form  action="<?= $form  ?>" name="frmCadastro" method="post" >
+                <!-- enctype="multipart/form-data" essa opção é obrigatória para enviar arquivos do formulario html para o servidor -->
+                <form  action="<?= $form  ?>" name="frmCadastro" method="post" enctype="multipart/form-data" >
                     <div class="campos">
                         <div class="cadastroInformacoesPessoais">
                             <label> Nome: </label>
@@ -81,6 +82,15 @@
                     </div>
                     <div class="campos">
                         <div class="cadastroInformacoesPessoais">
+                            <label> Escolha um arquivo </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <input type="file" name="fleFoto" accept=".jpg, .png, .jpeg, .gif">
+                        </div>
+                    </div>
+
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
                             <label> Observações: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
@@ -92,6 +102,7 @@
                             <input type="submit" name="btnEnviar" value="Salvar">
                         </div>
                     </div>
+                    
                 </form>
             </div>
         </div>
