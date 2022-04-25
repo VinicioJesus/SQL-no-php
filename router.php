@@ -28,9 +28,15 @@
                 require_once('Controller/controllerContatos.php');
                 
                 //Validação para identificar o tipo de ação que será realizada
-                if($action == 'INSERIR'){                    
-                    //Chama a função de inserir no controller 
-                    $resposta = inserirContato($_POST);
+                if($action == 'INSERIR'){ 
+                    
+                    if (isset($_FILES) && !empty($_FILES)) {
+                        //Chama a função de inserir no controller 
+                        $resposta = inserirContato($_POST, $_FILES);
+                    }else{
+                        $resposta = inserirContato($_POST,null);
+                    }
+                    
                     //Valida o tipo de dados que a controller retornou
                     if(is_bool($resposta))//Se for boleano 
                     {   
