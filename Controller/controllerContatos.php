@@ -12,6 +12,8 @@
     function inserirContato($dadosContato, $file)
     
     {   
+
+        $nomeFoto = (String) null;
         //Validação para verificar se o objeto está vazio
         if(!empty($dadosContato))
         {
@@ -20,14 +22,20 @@
             //Se o nome não estiver vazio
             if(!empty($dadosContato['txtNome']) && !empty($dadosContato['txtCelular']) && !empty($dadosContato['txtEmail']))
             {
-                
+                //validação para verificar se chegou um arquivo para uppload
                 if ( $file != null)
-                {
+                {   
+                   //import da função de upload de arquivos
                    require_once('modulo/upload.php');
-                   $resultado = uploadFile($file['fleFoto']); 
-                   echo($resultado);
-                   //var_dump($file['flefoto']);
-                   die;
+                   $nomeFoto = uploadFile($file['fleFoto']); 
+                   
+                   if (is_array($nomeFoto)) 
+                   {    
+                       //Caso ocorra algum erro no processo de  upload, a função irá
+                       // retornar um array com a mensagem de erro. Esse array será retornado paa
+                       // a router e ele irá exibir a mensagem de erro para o usuario.
+                       return $nomeFoto;
+                   }
                 }
                 
                 
@@ -42,7 +50,8 @@
                     "telefone"  => $dadosContato['txtTelefone'],
                     "celular"   => $dadosContato['txtCelular'],
                     "email"     => $dadosContato['txtEmail'],
-                    "obs"       => $dadosContato['txtObs']
+                    "obs"       => $dadosContato['txtObs'],
+                    "foto"      => $nomeFoto
                 );
                 
                 //import do arquivo de modelagem para manipular o BD
