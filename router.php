@@ -57,7 +57,18 @@
                 {
                     //recebe o id do registro que deverá ser excluido, que foi enviado 
                     //pela URL no link da imagem do excluir que foi acionado na index
-                    $idContato = $_GET['id'];      
+                    $idContato = $_GET['id'];
+                    $foto = $_GET['foto']; 
+                    
+                    //Criamos um array para encaminhar os valores do id e da foto 
+                    //para a controller
+                    $arrayDados = array (
+                        
+                        "id" => $idcontato,
+                        "foto" => $foto,
+                    
+                    );
+                    
 
                     
                     $resposta = excluirContato($idContato);
@@ -106,9 +117,17 @@
                 {   
                     //Recebe o id que foi encaminhado no action do form pela url
                     $idContato = $_GET['id'];
+                    //Recebe o nome da foto que foi enviada pelo GET do form
+                    $foto = $_GET['foto'];
+                    //Cria um array contendo o id e o nome a foto para enviar a controller
+                    $arrayDados = array (                        
+                        "id"    => $idcontato,
+                        "foto"  => $foto,
+                        "file"  => $_FILES
+                    );   
 
                     //Chama a função de editar no controller 
-                    $resposta = atualizarContato($_POST, $idContato);
+                    $resposta = atualizarContato($_POST, $arrayDados);
                     //Valida o tipo de dados que a controller retornou
                     if(is_bool($resposta))//Se for boleano 
                     {   
